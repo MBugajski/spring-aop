@@ -3,6 +3,7 @@ package com.mbugajski.spring.aop;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.mbugajski.spring.aop.dao.AccountDAO;
+import com.mbugajski.spring.aop.dao.MembershipDAO;
 
 public class MainAopApp {
 
@@ -12,7 +13,11 @@ public class MainAopApp {
 		
 		AccountDAO theAccountDAO = context.getBean("accountDAO", AccountDAO.class);
 		
+		MembershipDAO theMembershipDAO = context.getBean("membershipDAO", MembershipDAO.class);
+		
 		theAccountDAO.addAccount();
+		
+		theMembershipDAO.addMember();
 		
 		context.close();
 	}
