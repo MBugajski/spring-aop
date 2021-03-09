@@ -13,4 +13,10 @@ public class LoggingAspect {
 		
 		System.out.println("\n======>>> Executing @Before adviceon addAccount()");
 	}
+	
+	@Before("execution(* add*(com.mbugajski.spring.aop.Account))")
+	public void beforeAddAccountWithParamAdvice() {
+		
+		System.out.println("\n======>>> Executing @Before advice on addAccount(Account)");
+	}
 }

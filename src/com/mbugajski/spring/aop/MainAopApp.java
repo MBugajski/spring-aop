@@ -17,6 +17,8 @@ public class MainAopApp {
 		
 		theAccountDAO.addAccount();
 		
+		theAccountDAO.addAccount(new Account());
+		
 		theMembershipDAO.addMember();
 		
 		context.close();
