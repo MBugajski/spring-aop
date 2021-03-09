@@ -14,4 +14,8 @@ public class AccountDAO {
 		public void addAccount(Account account) {
 			System.out.println("adding account: " + account.getName());
 		}
+		
+		public void addAccount(Account account, boolean flagVip) {
+			System.out.println("adding account: " + account.getName() + " is VIP: " + flagVip);
+		}
 }
