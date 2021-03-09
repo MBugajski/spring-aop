@@ -25,4 +25,10 @@ public class LoggingAspect {
 		
 		System.out.println("\n======>>> Executing @Before advice on addAccount(Account, ..)");
 	}
+	
+	@Before("execution(* com.mbugajski.spring.aop.dao.*.*(..))")
+	public void beforeAnyMethodInThePackageAdvice() {
+		
+		System.out.println("\n======>>> Executing @Before advice on any method in chosen package");
+	}
 }

@@ -21,7 +21,11 @@ public class MainAopApp {
 		
 		theAccountDAO.addAccount(new Account(), true);
 		
+		theAccountDAO.doWork();
+		
 		theMembershipDAO.addMember();
+		
+		theMembershipDAO.goToSleep();
 		
 		context.close();
 	}
