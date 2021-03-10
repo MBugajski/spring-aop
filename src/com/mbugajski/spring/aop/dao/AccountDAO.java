@@ -35,5 +35,9 @@ public class AccountDAO {
 			this.name = name;
 		}
 		
+		public void callApi() {
+			System.out.println(getName() + " API");
+		}
+		
 		
 }

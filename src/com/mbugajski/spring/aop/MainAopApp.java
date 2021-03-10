@@ -27,6 +27,8 @@ public class MainAopApp {
 		
 		theAccountDAO.getName();
 		
+		theAccountDAO.callApi();
+		
 		theMembershipDAO.addMember();
 		
 		theMembershipDAO.goToSleep();
