@@ -6,6 +6,8 @@ import com.mbugajski.spring.aop.Account;
 
 @Component
 public class AccountDAO {
+	
+		private String name;
 
 		public void addAccount()	{
 			System.out.println(getClass() + " doing my db work: adding an account");
@@ -22,4 +24,16 @@ public class AccountDAO {
 		public void doWork() {
 			System.out.println("Doing work");
 		}
+
+		public String getName() {
+			System.out.println(getClass() + " getName()");
+			return name;
+		}
+
+		public void setName(String name) {
+			System.out.println(getClass() + " setName()");
+			this.name = name;
+		}
+		
+		
 }

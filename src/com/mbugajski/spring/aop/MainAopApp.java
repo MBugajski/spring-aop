@@ -23,6 +23,10 @@ public class MainAopApp {
 		
 		theAccountDAO.doWork();
 		
+		theAccountDAO.setName("main");
+		
+		theAccountDAO.getName();
+		
 		theMembershipDAO.addMember();
 		
 		theMembershipDAO.goToSleep();
