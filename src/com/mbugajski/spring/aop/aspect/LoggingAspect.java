@@ -1,6 +1,9 @@
 package com.mbugajski.spring.aop.aspect;
 
+import java.util.List;
+
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -57,11 +60,27 @@ public class LoggingAspect {
 		System.out.println("======>>> Executing @Before advice on any method in chosen package");
 	}
 	
-//	@Before("forDaoPackage() && !(getter() || setter())")
 	@Before("com.mbugajski.spring.aop.aspect.expressions.AopExpressions.forDaoPackageNoGetterOrSetter()")
 	public void beforeAnyMethodInThePackageAdviceWithDeclaration() {
 		
 		System.out.println("======>>> Executing @Before advice on any method in chosen package with declaration");
+	}
+	
+	@AfterReturning(
+			pointcut = "execution(* com.mbugajski.spring.aop.dao.AccountDAO.findAccounts(..))",
+			returning = "result")
+	public void afterReturningFindAccountsAdvice(List<Account> result) {
+		
+		System.out.println("======>>> Executing @AfterReturning advice on AccountDAO.findAccounts() method");
+		System.out.println("======>>> result is: " + result);
+	}
+	@AfterReturning(
+			pointcut = "execution(* com.mbugajski.spring.aop.dao.AccountDAO.findAccounts(..))",
+			returning = "result")
+	public void afterReturningFindAccountsAdviceWithJoinPointMetadata(JoinPoint theJoinPoint, List<Account> result) {
+		
+		System.out.println("======>>> Executing @AfterReturning advice on " + theJoinPoint.getSignature().toShortString());
+		System.out.println("======>>> result is: " + result);
 	}
 }
 
