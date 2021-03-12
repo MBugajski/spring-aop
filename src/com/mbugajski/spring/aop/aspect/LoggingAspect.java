@@ -2,7 +2,6 @@ package com.mbugajski.spring.aop.aspect;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(-5)
 public class LoggingAspect {
-	
-	@Pointcut("execution(* com.mbugajski.spring.aop.dao.*.*(..))") 
-		private void forDaoPackage() {}
 	
 	@Before("execution(public void add*())")
 	public void beforeAddAccountAdvice() {
@@ -39,7 +35,7 @@ public class LoggingAspect {
 	}
 	
 //	@Before("forDaoPackage() && !(getter() || setter())")
-	@Before("forDaoPackageNoGetterOrSetter()")
+	@Before("com.mbugajski.spring.aop.aspect.expressions.AopExpressions.forDaoPackageNoGetterOrSetter()")
 	public void beforeAnyMethodInThePackageAdviceWithDeclaration() {
 		
 		System.out.println("======>>> Executing @Before advice on any method in chosen package with declaration");
