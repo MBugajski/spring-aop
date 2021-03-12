@@ -1,9 +1,13 @@
 package com.mbugajski.spring.aop.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import com.mbugajski.spring.aop.Account;
 
 @Aspect
 @Component
@@ -13,7 +17,7 @@ public class LoggingAspect {
 	@Before("execution(public void add*())")
 	public void beforeAddAccountAdvice() {
 		
-		System.out.println("======>>> Executing @Before adviceon addAccount()");
+		System.out.println("======>>> Executing @Before advice on addAccount()");
 	}
 	
 	@Before("execution(* add*(com.mbugajski.spring.aop.Account))")
@@ -23,9 +27,28 @@ public class LoggingAspect {
 	}
 	
 	@Before("execution(* add*(com.mbugajski.spring.aop.Account, ..))")
-	public void beforeAddAccountWithParamsAdvice() {
+	public void beforeAddAccountWithParamsAdvice(JoinPoint theJoinPoint) {
 		
 		System.out.println("======>>> Executing @Before advice on addAccount(Account, ..)");
+		
+		MethodSignature methodSignature = (MethodSignature) theJoinPoint.getSignature();
+		
+		System.out.println("Method: " + methodSignature);
+		
+		Object[] args = theJoinPoint.getArgs();
+		
+		for (Object tempArg : args) {
+			System.out.println(tempArg);
+			
+			if (tempArg instanceof Account) {
+				
+				//downcast and print Account class specific details
+				Account theAccount = (Account) tempArg;
+				
+				System.out.println("Account name: " + theAccount.getName());
+				System.out.println("Account level: " + theAccount.getLevel());
+			}
+		}
 	}
 	
 	@Before("execution(* com.mbugajski.spring.aop.dao.*.*(..))")

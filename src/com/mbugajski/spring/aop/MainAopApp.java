@@ -19,7 +19,7 @@ public class MainAopApp {
 		
 		theAccountDAO.addAccount(new Account());
 		
-		theAccountDAO.addAccount(new Account(), true);
+		theAccountDAO.addAccount(new Account("Adam", "Basic"), true);
 		
 		theAccountDAO.doWork();
 		
