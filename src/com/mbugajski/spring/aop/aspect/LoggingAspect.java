@@ -82,5 +82,19 @@ public class LoggingAspect {
 		System.out.println("======>>> Executing @AfterReturning advice on " + theJoinPoint.getSignature().toShortString());
 		System.out.println("======>>> result is: " + result);
 	}
+	
+	@AfterReturning(
+			pointcut = "execution(* com.mbugajski.spring.aop.dao.AccountDAO.findAccounts(..))",
+			returning = "result")
+	public void afterReturningFindAccountsAdviceWithPostprocessing(JoinPoint theJoinPoint, List<Account> result) {
+		
+		System.out.println("======>>> Executing @AfterReturning advice on " + theJoinPoint.getSignature().toShortString());
+		System.out.println("======>>> result is: " + result);
+		
+		for(Account tempAccount : result) {
+			tempAccount.setName(tempAccount.getName().toUpperCase());
+		}
+		System.out.println("======>>> Post-processed result is: " + result);
+	}
 }
 
