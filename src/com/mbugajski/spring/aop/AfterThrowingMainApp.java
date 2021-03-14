@@ -7,7 +7,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import com.mbugajski.spring.aop.dao.AccountDAO;
 import com.mbugajski.spring.aop.dao.MembershipDAO;
 
-public class AfterReturningApp {
+public class AfterThrowingMainApp {
 
 	public static void main(String[] args) {
 
@@ -15,7 +15,14 @@ public class AfterReturningApp {
 		
 		AccountDAO theAccountDAO = context.getBean("accountDAO", AccountDAO.class);
 		
-		List<Account> theAccounts = theAccountDAO.findAccounts();
+		List<Account> theAccounts = null;
+		
+		try {
+			boolean tripWire = true;
+			theAccounts = theAccountDAO.findAccounts(tripWire);
+		} catch (Exception e) {
+			System.out.println("Cought exception: " + e);
+		}
 		
 		System.out.println("Accounts: " + theAccounts);
 		

@@ -13,7 +13,11 @@ public class AccountDAO {
 		private String name;
 		
 		
-		public List<Account> findAccounts() {
+		public List<Account> findAccounts(boolean tripWire) {
+			if (tripWire) {
+				throw new RuntimeException("Simulated exception: testing @AfterThrowing");
+			}
+			
 			List<Account> myAccounts = new ArrayList<>();
 			
 			Account temp1 = new Account("Adam", "Gold");
@@ -26,6 +30,7 @@ public class AccountDAO {
 			
 			return myAccounts;
 		}
+
 
 		public void addAccount()	{
 			System.out.println(getClass() + " doing my db work: adding an account");
@@ -56,6 +61,4 @@ public class AccountDAO {
 		public void callApi() {
 			System.out.println(getName() + " API");
 		}
-		
-		
 }
