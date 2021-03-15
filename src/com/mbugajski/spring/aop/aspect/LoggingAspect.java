@@ -3,9 +3,11 @@ package com.mbugajski.spring.aop.aspect;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -111,6 +113,22 @@ public class LoggingAspect {
 	@After("execution(* com.mbugajski.spring.aop.dao.AccountDAO.findAccounts(..))")
 	public void afterFinallyFindAccountsAdvice(JoinPoint theJoinPoint) {
 		System.out.println("======>>> Executing @After (Finally) advice on " + theJoinPoint.getSignature().toShortString());
+	}
+	
+	@Around("execution(* com.mbugajski.spring.aop.service.*.doWork(..))")
+	public Object aroundDoWorkAdvice(ProceedingJoinPoint theProceedingJoinPoint) throws Throwable{
+		
+		System.out.println("======>>> Executing @Around advice on " + theProceedingJoinPoint.getSignature().toShortString());
+		
+		long begin = System.currentTimeMillis();
+		
+		Object result = theProceedingJoinPoint.proceed();
+		
+		long end = System.currentTimeMillis();
+		
+		System.out.println("======>>> Duration: " + (end - begin)/1000.0 + " seconds."); 
+		
+		return result;
 	}
 }
 
