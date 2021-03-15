@@ -3,6 +3,7 @@ package com.mbugajski.spring.aop.aspect;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -105,6 +106,11 @@ public class LoggingAspect {
 		
 		System.out.println("======>>> Executing @AfterThrowing advice on " + theJoinPoint.getSignature().toShortString());
 		System.out.println("======>>> Exception occured: " + e);
+	}
+	
+	@After("execution(* com.mbugajski.spring.aop.dao.AccountDAO.findAccounts(..))")
+	public void afterFinallyFindAccountsAdvice(JoinPoint theJoinPoint) {
+		System.out.println("======>>> Executing @After (Finally) advice on " + theJoinPoint.getSignature().toShortString());
 	}
 }
 
