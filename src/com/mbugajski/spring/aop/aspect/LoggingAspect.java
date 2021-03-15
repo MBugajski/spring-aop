@@ -1,6 +1,7 @@
 package com.mbugajski.spring.aop.aspect;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -21,39 +22,41 @@ import com.mbugajski.spring.aop.Account;
 @Order(-5)
 public class LoggingAspect {
 	
+	private Logger myLogger = Logger.getLogger(getClass().getName());
+	
 	@Before("execution(public void add*())")
 	public void beforeAddAccountAdvice() {
 		
-		System.out.println("======>>> Executing @Before advice on addAccount()");
+		myLogger.info("======>>> Executing @Before advice on addAccount()");
 	}
 	
 	@Before("execution(* add*(com.mbugajski.spring.aop.Account))")
 	public void beforeAddAccountWithParamAdvice() {
 		
-		System.out.println("======>>> Executing @Before advice on addAccount(Account)");
+		myLogger.info("======>>> Executing @Before advice on addAccount(Account)");
 	}
 	
 	@Before("execution(* add*(com.mbugajski.spring.aop.Account, ..))")
 	public void beforeAddAccountWithParamsAdvice(JoinPoint theJoinPoint) {
 		
-		System.out.println("======>>> Executing @Before advice on addAccount(Account, ..)");
+		myLogger.info("======>>> Executing @Before advice on addAccount(Account, ..)");
 		
 		MethodSignature methodSignature = (MethodSignature) theJoinPoint.getSignature();
 		
-		System.out.println("Method: " + methodSignature);
+		myLogger.info("Method: " + methodSignature);
 		
 		Object[] args = theJoinPoint.getArgs();
 		
 		for (Object tempArg : args) {
-			System.out.println(tempArg);
+			myLogger.info(tempArg.toString());
 			
 			if (tempArg instanceof Account) {
 				
 				//downcast and print Account class specific details
 				Account theAccount = (Account) tempArg;
 				
-				System.out.println("Account name: " + theAccount.getName());
-				System.out.println("Account level: " + theAccount.getLevel());
+				myLogger.info("Account name: " + theAccount.getName());
+				myLogger.info("Account level: " + theAccount.getLevel());
 			}
 		}
 	}
@@ -61,13 +64,13 @@ public class LoggingAspect {
 	@Before("execution(* com.mbugajski.spring.aop.dao.*.*(..))")
 	public void beforeAnyMethodInThePackageAdvice() {
 		
-		System.out.println("======>>> Executing @Before advice on any method in chosen package");
+		myLogger.info("======>>> Executing @Before advice on any method in chosen package");
 	}
 	
 	@Before("com.mbugajski.spring.aop.aspect.expressions.AopExpressions.forDaoPackageNoGetterOrSetter()")
 	public void beforeAnyMethodInThePackageAdviceWithDeclaration() {
 		
-		System.out.println("======>>> Executing @Before advice on any method in chosen package with declaration");
+		myLogger.info("======>>> Executing @Before advice on any method in chosen package with declaration");
 	}
 	
 	@AfterReturning(
@@ -75,16 +78,16 @@ public class LoggingAspect {
 			returning = "result")
 	public void afterReturningFindAccountsAdvice(List<Account> result) {
 		
-		System.out.println("======>>> Executing @AfterReturning advice on AccountDAO.findAccounts() method");
-		System.out.println("======>>> result is: " + result);
+		myLogger.info("======>>> Executing @AfterReturning advice on AccountDAO.findAccounts() method");
+		myLogger.info("======>>> result is: " + result);
 	}
 	@AfterReturning(
 			pointcut = "execution(* com.mbugajski.spring.aop.dao.AccountDAO.findAccounts(..))",
 			returning = "result")
 	public void afterReturningFindAccountsAdviceWithJoinPointMetadata(JoinPoint theJoinPoint, List<Account> result) {
 		
-		System.out.println("======>>> Executing @AfterReturning advice on " + theJoinPoint.getSignature().toShortString());
-		System.out.println("======>>> result is: " + result);
+		myLogger.info("======>>> Executing @AfterReturning advice on " + theJoinPoint.getSignature().toShortString());
+		myLogger.info("======>>> result is: " + result);
 	}
 	
 	@AfterReturning(
@@ -92,13 +95,13 @@ public class LoggingAspect {
 			returning = "result")
 	public void afterReturningFindAccountsAdviceWithPostprocessing(JoinPoint theJoinPoint, List<Account> result) {
 		
-		System.out.println("======>>> Executing @AfterReturning advice on " + theJoinPoint.getSignature().toShortString());
-		System.out.println("======>>> result is: " + result);
+		myLogger.info("======>>> Executing @AfterReturning advice on " + theJoinPoint.getSignature().toShortString());
+		myLogger.info("======>>> result is: " + result);
 		
 		for(Account tempAccount : result) {
 			tempAccount.setName(tempAccount.getName().toUpperCase());
 		}
-		System.out.println("======>>> Post-processed result is: " + result);
+		myLogger.info("======>>> Post-processed result is: " + result);
 	}
 	
 	@AfterThrowing(
@@ -106,19 +109,19 @@ public class LoggingAspect {
 			throwing = "e")
 	public void afterThrowingFindAccountsAdvice(JoinPoint theJoinPoint, Throwable e) {
 		
-		System.out.println("======>>> Executing @AfterThrowing advice on " + theJoinPoint.getSignature().toShortString());
-		System.out.println("======>>> Exception occured: " + e);
+		myLogger.info("======>>> Executing @AfterThrowing advice on " + theJoinPoint.getSignature().toShortString());
+		myLogger.info("======>>> Exception occured: " + e);
 	}
 	
 	@After("execution(* com.mbugajski.spring.aop.dao.AccountDAO.findAccounts(..))")
 	public void afterFinallyFindAccountsAdvice(JoinPoint theJoinPoint) {
-		System.out.println("======>>> Executing @After (Finally) advice on " + theJoinPoint.getSignature().toShortString());
+		myLogger.info("======>>> Executing @After (Finally) advice on " + theJoinPoint.getSignature().toShortString());
 	}
 	
 	@Around("execution(* com.mbugajski.spring.aop.service.*.doWork(..))")
 	public Object aroundDoWorkAdvice(ProceedingJoinPoint theProceedingJoinPoint) throws Throwable{
 		
-		System.out.println("======>>> Executing @Around advice on " + theProceedingJoinPoint.getSignature().toShortString());
+		myLogger.info("======>>> Executing @Around advice on " + theProceedingJoinPoint.getSignature().toShortString());
 		
 		long begin = System.currentTimeMillis();
 		
@@ -126,7 +129,7 @@ public class LoggingAspect {
 		
 		long end = System.currentTimeMillis();
 		
-		System.out.println("======>>> Duration: " + (end - begin)/1000.0 + " seconds."); 
+		myLogger.info("======>>> Duration: " + (end - begin)/1000.0 + " seconds."); 
 		
 		return result;
 	}

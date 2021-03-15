@@ -1,5 +1,7 @@
 package com.mbugajski.spring.aop.aspect;
 
+import java.util.logging.Logger;
+
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.core.annotation.Order;
@@ -10,8 +12,10 @@ import org.springframework.stereotype.Component;
 @Order(9001)
 public class ApiAnalyticsAspect {
 	
+	private Logger myLogger = Logger.getLogger(getClass().getName());
+	
 	@Before("execution(* callApi*())")
 	public void beforeApiCall() {
-		System.out.println("======>>> Executing @Before advice on API calls");
+		myLogger.info("======>>> Executing @Before advice on API calls");
 	}
 }
