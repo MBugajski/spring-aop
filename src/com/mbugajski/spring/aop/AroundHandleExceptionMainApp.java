@@ -6,9 +6,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import com.mbugajski.spring.aop.service.WorkService;
 
-public class AroundMainApp {
+public class AroundHandleExceptionMainApp {
 	
-	private static Logger myLogger = Logger.getLogger(AroundMainApp.class.getName());
+	private static Logger myLogger = Logger.getLogger(AroundHandleExceptionMainApp.class.getName());
 		
 	public static void main(String[] args) {
 
@@ -16,7 +16,7 @@ public class AroundMainApp {
 		
 		WorkService workService = context.getBean("workService", WorkService.class);
 		myLogger.info("Setting out to do work.");
-		myLogger.info(workService.doWork(false));
+		myLogger.info(workService.doWork(true));
 		
 		context.close();
 	}

@@ -125,7 +125,14 @@ public class LoggingAspect {
 		
 		long begin = System.currentTimeMillis();
 		
-		Object result = theProceedingJoinPoint.proceed();
+		Object result = null;
+		
+		try {
+			result = theProceedingJoinPoint.proceed();
+		} catch (Throwable e) {
+			myLogger.warning(e.getMessage());
+			result = "Work couldn't be done due to technical difficulties.";
+		}
 		
 		long end = System.currentTimeMillis();
 		
