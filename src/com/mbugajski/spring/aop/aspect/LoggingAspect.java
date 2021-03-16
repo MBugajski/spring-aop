@@ -140,5 +140,29 @@ public class LoggingAspect {
 		
 		return result;
 	}
+	
+	@Around("execution(* com.mbugajski.spring.aop.service.*.doWork(..))")
+	public Object aroundDoWorkAdviceRethrowing(ProceedingJoinPoint theProceedingJoinPoint) throws Throwable{
+		
+		myLogger.info("======>>> Executing @Around advice on " + theProceedingJoinPoint.getSignature().toShortString());
+		
+		long begin = System.currentTimeMillis();
+		
+		Object result = null;
+		
+		try {
+			result = theProceedingJoinPoint.proceed();
+		} catch (Throwable e) {
+			myLogger.warning(e.getMessage());
+
+			throw e;
+		}
+		
+		long end = System.currentTimeMillis();
+		
+		myLogger.info("======>>> Duration: " + (end - begin)/1000.0 + " seconds."); 
+		
+		return result;
+	}
 }
 

@@ -17,7 +17,7 @@ public class AroundHandleExceptionMainApp {
 		WorkService workService = context.getBean("workService", WorkService.class);
 		myLogger.info("Setting out to do work.");
 		myLogger.info(workService.doWork(true));
-		
+		myLogger.info(workService.doWork(false));
 		context.close();
 	}
 
